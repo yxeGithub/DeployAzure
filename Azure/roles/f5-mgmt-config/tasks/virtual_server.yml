@@ -7,7 +7,6 @@
         partition: "Common"
         monitors: "http"
         lb_method: "round-robin"
-        #lb_method: "ratio_member"
         slow_ramp_time: 120
     delegate_to: localhost
 

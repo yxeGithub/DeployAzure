@@ -9,12 +9,6 @@
         tenant: '{{tenant}}'
         resource_group_name: '{{resource_group_name}}'
         parameters:
-                tenantId:
-                    value: '{{tenant}}'
-                clientId:
-                    value: '{{client_id}}'
-                servicePrincipalSecret:
-                    value: '{{secret}}'
                 adminPassword:
                     value: '{{adminPassword}}'
                 dnsLabel:
@@ -25,4 +19,4 @@
                     value: '{{licenseKey1}}'
                 licenseKey2:
                     value: '{{licenseKey2}}'
-        template_link: 'https://raw.githubusercontent.com/F5Networks/f5-azure-arm-templates/master/supported/ha-avset/new_stack/BYOL/azuredeploy.json'
+        template_link: 'https://raw.githubusercontent.com/F5Networks/f5-azure-arm-templates/v5.0.0.0/supported/cluster/failover-lb/3nic/new_stack/BYOL/azuredeploy.json'
