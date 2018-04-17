@@ -1,0 +1,14 @@
+name_server1: "8.8.8.8"
+name_server2: "4.4.4.4"
+search_domain1: "local.com"
+search_domain2: "localhost"
+ntp_server1: "0.ca.pool.ntp.org"
+ntp_server2: "1.ca.pool.ntp.org"
+ntp_server3: "2.ca.pool.ntp.org"
+timezone: "Canada/Saskatchewan"
+AZURE_RESOURCE_GROUPS: "F5AVSet"
+dnsLabel: dens
+server: "{{ bigip }}"
+modules:
+  - {name: asm, level: nominal}
+  - {name: apm, level: nominal}

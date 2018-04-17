@@ -1,0 +1,37 @@
+
+---
+
+  - name: include our vault that holds our Azure credentials
+    include_vars: ../../inventory/vault_azure_creds.yml
+
+  - import_tasks: azure_get_info.yml
+
+# This section doesnt work at this time - Sad face :(  Gonna do it old school !!!
+#  - name: Revoke License BIG-IP-A using default license options
+#    bigip_license:
+#      state: "{{ state }}"
+#      server: "{{ bigip1 }}"
+#    delegate_to: localhost
+
+  - name: Revoke License BIG-IP-A using default license options
+    bigip_command:
+      commands: tmsh revoke sys license
+      server: "{{ bigip1 }}"
+    delegate_to: localhost
+
+  - name: Revoke License BIG-IP-A using default license options
+    bigip_command:
+      commands: tmsh revoke sys license
+      server: "{{ bigip2 }}"
+    delegate_to: localhost
+
+  - name: Delete a resource group
+    azure_rm_resourcegroup:
+      client_id: '{{client_id}}'
+      secret: '{{secret}}'
+      subscription_id: '{{subscription_id}}'
+      tenant: '{{tenant}}'
+      name: "{{ resource_group_name }}"
+      state: "{{ state }}"
+      force: "{{ force }}"
+    delegate_to: localhost

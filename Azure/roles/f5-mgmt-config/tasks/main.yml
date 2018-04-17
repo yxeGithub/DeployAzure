@@ -1,0 +1,11 @@
+---
+
+  - name: include our vault that holds our Azure credentials
+    include_vars: ../../inventory/vault_azure_creds.yml
+
+  - name: Go get some azure inventory so we can do stuff !!!
+    include_tasks: azure_get_info.yml
+
+  - include_tasks: bigip_device_ntp/set_timezone.yml
+
+  - include_tasks: virtual_server.yml

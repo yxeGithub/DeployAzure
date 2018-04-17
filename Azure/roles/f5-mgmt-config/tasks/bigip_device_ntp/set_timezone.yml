@@ -1,0 +1,6 @@
+---
+- name: Set timezone
+  bigip_device_ntp:
+    timezone: "{{ timezone }}"
+  delegate_to: localhost
+...

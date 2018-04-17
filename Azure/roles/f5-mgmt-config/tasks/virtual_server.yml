@@ -1,0 +1,31 @@
+# roles/f5-mgmt-config/tasks/virtual_server.yml
+
+  - name: Create LB pool
+    bigip_pool:
+        state: "present"
+        name: "Denis"
+        partition: "Common"
+        monitors: "http"
+        lb_method: "round-robin"
+        #lb_method: "ratio_member"
+        slow_ramp_time: 120
+    delegate_to: localhost
+
+  - name: Add nodes to pool
+    bigip_pool_member:
+        host: "192.168.0.211"
+        name: "192.168.0.211"
+        pool: "Denis"
+        port: "80"
+    delegate_to: localhost
+
+  - name: Create apache https virtual server
+    bigip_virtual_server:
+        state: present
+        description: "foo-vip"
+        destination: "10.0.2.10"
+        name: "DenisV-Server"
+        pool: "Denis"
+        port: "443"
+        snat: "Automap"
+    delegate_to: localhost

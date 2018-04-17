@@ -1,0 +1,24 @@
+# Deploy an Azure WebApp running a hello world'ish node app
+- name: include our vault that holds our Azure credentials
+  include_vars: ../../inventory/vault_azure_creds.yml
+
+- name: Create Azure WebApp Deployment at http://devopscleweb.azurewebsites.net/hello.js
+  azure_rm_deployment:
+    state: present
+    client_id: '{{client_id}}'
+    secret: '{{secret}}'
+    subscription_id: '{{subscription_id}}'
+    tenant: '{{tenant}}'
+    resource_group: '{{resource_group_name}}'
+    parameters:
+      repoURL:
+        value: 'https://github.com/devigned/az-roadshow-oss.git'
+      siteName:
+        value: DenisWeb
+      hostingPlanName:
+        value: ServicePlan025192ac-b7f7
+      #siteLocation:
+      #  value: "Central US"
+      sku:
+        value: S1
+    template_link: 'https://raw.githubusercontent.com/azure/azure-quickstart-templates/master/201-web-app-github-deploy/azuredeploy.json'

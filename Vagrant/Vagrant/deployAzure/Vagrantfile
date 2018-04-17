@@ -1,0 +1,89 @@
+# Vagrantfile to provision f5 tools vm and (use the F5 bastion ansible script to install the required libraries) and then ansible to deploy an HA F5 in Azure and configure F5 management instance(s)
+
+# define environments.git/ansible directory (i.e. on Mac, Linux, Windows)
+$playbooks_path = "/Users/grimard/Documents/GitHub/DeployAzure"
+
+#Determine the OS and set a variable for the VMWare provider
+module OS
+    def OS.windows?
+        (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+    end
+    def OS.mac?
+        (/darwin/ =~ RUBY_PLATFORM) != nil
+    end
+    def OS.unix?
+        !OS.windows?
+    end
+    def OS.linux?
+        OS.unix? and not OS.mac?
+    end
+end
+is_windows_host = "#{OS.windows?}"
+puts "is_windows_host: #{OS.windows?}"
+if OS.windows?
+    $vm_env = "vmware_workstation"
+elsif OS.mac?
+    $vm_env = "vmware_fusion"
+else
+    puts "Vagrant launched from unknown platform."
+end
+
+Vagrant.require_version ">= 1.7.0"
+Vagrant.configure(2) do |config|
+  # specify vm to retrieve from vagrant
+  # config.vm.box = "centos7-4.1708"
+  config.vm.box = "centos/7"
+  config.ssh.insert_key = false
+
+ # to get shared folder to work you need to have run: vagrant plugin install vagrant-sshfs
+  config.vm.synced_folder $playbooks_path, "/home/vagrant/playbooks", type: "sshfs"
+
+  config.vm.provider $vm_env do |v|
+    v.gui = true
+    v.name = "PATSEs-Tools"
+  end
+
+# define provisioning bash script
+$script = <<SCRIPT
+date > /etc/vagrant_provisioned_at
+echo ""
+echo "yum update"
+echo ""
+sudo yum -y update
+echo ""
+echo "Adding epel to yum"
+echo ""
+sudo yum -y install epel-release
+echo ""
+echo "Installing ansible"
+echo ""
+sudo yum -y install ansible
+echo ""
+echo "Install the required libraries for Azure F5 HA deploy and mgmt config:"
+echo ""
+CMD="ansible-playbook /home/vagrant/playbooks/Azure/f5.yml --tags add-libraries -c local --extra-vars host=localhost -i playbooks/Azure/inventory --ask-vault-pass"
+echo $CMD
+echo ""
+#${CMD}
+echo ""
+echo "Deploy an Azure Highly available F5 pair:"
+echo ""
+CMD="ansible-playbook /home/vagrant/playbooks/Azure/f5.yml --tags f5-az-deploy-ha -c local --extra-vars host=localhost -i playbooks/Azure/inventory --ask-vault-pass"
+echo $CMD
+echo ""
+#${CMD}
+echo ""
+echo "Configure F5 mgmt:"
+echo ""
+CMD="ansible-playbook /home/vagrant/playbooks/Azure/f5.yml --tags f5-mgmt-config -c local --extra-vars host=localhost -i playbooks/Azure/inventory --ask-vault-pass"
+echo $CMD
+echo ""
+#${CMD}
+echo ""
+echo "done"
+echo ""
+SCRIPT
+
+  # run bash script on vm
+  config.vm.provision "shell", inline: $script
+end

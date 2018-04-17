@@ -1,0 +1,14 @@
+- name: Get Public IP BIGIP-A MGMT IP
+  azure_rm_publicipaddress_facts:
+    client_id: '{{client_id}}'
+    secret: '{{secret}}'
+    subscription_id: '{{subscription_id}}'
+    tenant: '{{tenant}}'
+    resource_group: '{{resource_group_name}}'
+    name: "{{dnsLabel}}-mgmt-pip0"
+  register: azure_pip0
+
+- name: set variable for Public IP BIGIP MGMT IP
+  set_fact:
+    #bigip1: "{{ azure_pip0.ansible_facts.azure_publicipaddresses[0].properties.ipAddress }}"
+    bigip: "{{ azure_pip0.ansible_facts.azure_publicipaddresses[0].properties.dnsSettings.fqdn }}"

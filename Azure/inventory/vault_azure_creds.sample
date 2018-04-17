@@ -1,0 +1,8 @@
+---
+client_id:
+secret:
+subscription_id:
+tenant:
+
+# See here on how to get this information and creae a Service Pricipal account
+# https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-create-service-principal-portal#get-application-id-and-authentication-key

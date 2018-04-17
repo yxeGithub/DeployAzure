@@ -1,0 +1,32 @@
+---
+# top level f5 playbook - run in the following order:
+
+# 1. Install the required libraries for Azure F5 HA deploy and mgmt config:
+# ansible-playbook /home/vagrant/playbooks/Azure/f5.yml --tags add-libraries -c local --extra-vars host=localhost -i playbooks/Azure/inventory --ask-vault-pass
+
+# 2. Deploy an Azure Highly available F5 pair:
+# ansible-playbook /home/vagrant/playbooks/Azure/f5.yml --tags f5-az-deploy-ha -c local --extra-vars host=localhost -i playbooks/Azure/inventory --ask-vault-pass
+
+# TBD - not finished  yet - Deploy websites
+# ansible-playbook /home/vagrant/playbooks/Azure/f5.yml --tags f5-deploy-website -c local --extra-vars host=localhost -i playbooks/Azure/inventory --ask-vault-pass
+
+# 3. Configure F5 mgmt:
+# ansible-playbook /home/vagrant/playbooks/Azure/f5.yml --tags f5-mgmt-config -c local --extra-vars host=localhost -i playbooks/Azure/inventory --ask-vault-pass
+
+# 4. (Optional) revoke license and delete Azure Resource group - aka cleanup
+# ansible-playbook /home/vagrant/playbooks/Azure/f5.yml --tags f5-destroy-env -c local --extra-vars host=localhost -i playbooks/Azure/inventory --ask-vault-pass
+
+- hosts: "{{ host }}"
+
+  roles:
+    - {role: 'add-libraries', tags: 'add-libraries', become: yes}
+    - {role: 'f5-az-deploy-ha', tags: 'f5-az-deploy-ha', become: yes}
+    - {role: 'f5-mgmt-config', tags: 'f5-mgmt-config'}
+    - {role: 'f5-destroy-env', tags: 'f5-destroy-env'}
+    - {role: 'f5-deploy-website', tags: 'f5-deploy-website'}
+
+  environment:
+    F5_USER: admin
+    F5_PASSWORD: "{{adminPassword}}"
+    F5_VALIDATE_CERTS: "no"
+    F5_SERVER: "{{ bigip }}"

@@ -1,0 +1,28 @@
+---
+
+    - name: "Create F5 HA AV Set in Azure - *** This will take 10 minutes so get a drink ****"
+      azure_rm_deployment:
+        state: present
+        client_id: '{{client_id}}'
+        secret: '{{secret}}'
+        subscription_id: '{{subscription_id}}'
+        tenant: '{{tenant}}'
+        resource_group_name: '{{resource_group_name}}'
+        parameters:
+                tenantId:
+                    value: '{{tenant}}'
+                clientId:
+                    value: '{{client_id}}'
+                servicePrincipalSecret:
+                    value: '{{secret}}'
+                adminPassword:
+                    value: '{{adminPassword}}'
+                dnsLabel:
+                    value: '{{dnsLabel}}'
+                imageName:
+                    value: '{{imageName}}'
+                licenseKey1:
+                    value: '{{licenseKey1}}'
+                licenseKey2:
+                    value: '{{licenseKey2}}'
+        template_link: 'https://raw.githubusercontent.com/F5Networks/f5-azure-arm-templates/master/supported/ha-avset/new_stack/BYOL/azuredeploy.json'
