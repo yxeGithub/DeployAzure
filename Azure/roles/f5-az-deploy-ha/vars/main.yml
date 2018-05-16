@@ -1,7 +1,7 @@
 ---
 
-resource_group_name: F5AVSet
+resource_group_name: AVSet
 dnsLabel: dens
 imageName: Best
-licenseKey1: UWTLU-OCAFH-ACLST-VRGJW-MXDTYFM
-licenseKey2: BQMAH-UKUOG-RZHCY-HSXGK-UEKXHOL
+licenseKey1: XXPEM-MJXFK-ZRFRT-VWDKB-RXRHPNF
+licenseKey2: SAHDS-GXDEL-CRWSM-KPWXM-KRWRLZU

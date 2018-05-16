@@ -13,10 +13,20 @@
                     value: '{{adminPassword}}'
                 dnsLabel:
                     value: '{{dnsLabel}}'
+                numberOfExternalIps:
+                    value: 2
                 imageName:
                     value: '{{imageName}}'
                 licenseKey1:
                     value: '{{licenseKey1}}'
                 licenseKey2:
                     value: '{{licenseKey2}}'
-        template_link: 'https://raw.githubusercontent.com/F5Networks/f5-azure-arm-templates/v5.0.0.0/supported/cluster/failover-lb/3nic/new_stack/BYOL/azuredeploy.json'
+                tenantId:
+                    value: '{{tenant}}'
+                clientid:
+                    value: '{{client_id}}'
+                servicePrincipalSecret:
+                    value: '{{secret}}'
+
+        template_link: 'https://raw.githubusercontent.com/F5Networks/f5-azure-arm-templates/v5.0.0.0/supported/cluster/failover-api/new_stack/BYOL/azuredeploy.json'
+        #template_link: 'https://raw.githubusercontent.com/F5Networks/f5-azure-arm-templates/master/supported/cluster/failover-api/existing_stack/PAYG/azuredeploy.json'
