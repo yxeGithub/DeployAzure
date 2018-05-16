@@ -1,7 +1,7 @@
 
 ---
 
-resource_group_name: F5AVSet
+resource_group_name: "AVSet"
 state: absent
 dnsLabel: dens
 force: true

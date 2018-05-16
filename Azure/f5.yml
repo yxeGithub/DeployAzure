@@ -30,3 +30,8 @@
     F5_PASSWORD: "{{adminPassword}}"
     F5_VALIDATE_CERTS: "no"
     F5_SERVER: "{{ bigip }}"
+    AZURE_CLIENT_ID:         "{{ client_id }}"
+    AZURE_SECRET:            "{{ secret }}"
+    AZURE_SUBSCRIPTION_ID:   "{{ subscription_id }}"
+    AZURE_TENANT:            "{{ tenant }}"
+    AZURE_CERT_VALIDATION:   "ignore"

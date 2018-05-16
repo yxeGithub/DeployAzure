@@ -3,6 +3,23 @@
   - name: include our vault that holds our Azure credentials
     include_vars: ../../inventory/vault_azure_creds.yml
 
+  - name: Retrieve your public IP
+    uri:
+      url: https://api.ipify.org
+      return_content: yes
+    register: out
+
+  - set_fact:
+      my_ip: "{{ out.content }}"
+
+  - name: Modify BIGIP ext security group
+    azure_rm_securitygroup:
+      cert_validation_mode: ignore
+      name: "{{ dnsLabel }}-ext-nsg"
+      rules: "{{ ext_rules }}"
+      resource_group: "{{resource_group_name}}"
+      state: "present"
+
   - name: Go get some azure inventory so we can do stuff !!!
     include_tasks: azure_get_info.yml
 
